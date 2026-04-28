@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlphaAgent Healthcare Solutions</title>
+    <style>
+        :root {
+            --primary: #FFFFFF;
+            --secondary: #F8F9FA;
+            --accent: #0A1628;
+            --surgical: #A8D8EA;
+            --text: #2D3748;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Palatino', serif;
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--primary);
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-content a {
+            text-decoration: none;
+            color: var(--text);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-content a:hover {
+            background-color: var(--secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            width: 100%;
+            background-color: var(--primary);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 700;
+            font-size: 48px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-family: 'Georgia', 'Palatino', serif;
+            font-size: 18px;
+            color: #5a6a7a;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-button {
+            background-color: var(--accent);
+            color: var(--primary);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .hero-button:hover {
+            background-color: #1a2a45;
+        }
+
+        .hero-image-container {
+            position: relative;
+            display: inline-block;
+            margin-top: 50px;
+            max-width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .hero-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .alpha-glasses-hud {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            color: var(--surgical);
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 40px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hud-top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .hud-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .hud-item {
+            background: rgba(10, 22, 40, 0.6);
+            padding: 8px 15px;
+            border-left: 3px solid var(--surgical);
+            backdrop-filter: blur(4px);
+        }
+
+        .hud-scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(168, 216, 234, 0.3);
+            box-shadow: 0 0 10px var(--surgical);
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        .hud-target {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border: 1px solid rgba(168, 216, 234, 0.3);
+            border-radius: 50%;
+        }
+
+        .hud-target::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: rgba(168, 216, 234, 0.5);
+        }
+
+        .hud-target::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 10%;
+            bottom: 10%;
+            width: 1px;
+            background: rgba(168, 216, 234, 0.5);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background-color: var(--secondary);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 700;
+            font-size: 36px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            font-family: 'Georgia', 'Palatino', serif;
+            color: #5a6a7a;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--primary);
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.1);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--surgical);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .card-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--accent);
+        }
+
+        .card h3 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-family: 'Georgia', 'Palatino', serif;
+            font-size: 14px;
+            color: #5a6a7a;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--accent);
+            color: var(--primary);
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-logo {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .footer-info {
+            margin-bottom: 30px;
+        }
+
+        .footer-info p {
+            font-family: 'Georgia', 'Palatino', serif;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .footer-bottom p {
+            font-family: 'Georgia', 'Palatino', serif;
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 10px;
+        }
+
+        .footer-bottom a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .footer-bottom a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            font-family: 'Georgia', 'Palatino', serif;
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 15px;
+        }
+
+        .copyright a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .nav-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .nav-content a {
+                padding: 10px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .footer-links a {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <ul class="nav-content">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#technology">Technology</a></li>
+                <li><a href="mailto:ng542@cornell.edu">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>AlphaAgent</h1>
+            <p style="font-size: 24px; color: var(--accent); font-weight: 700; margin-bottom: 10px;">The Clinical Workflow OS for Modern Surgeons</p>
+            <p>Automating medical documentation and point-of-care operations using off-the-shelf smart glasses. Pre-revenue. Built for YC Summer 2026.</p>
+            <div style="margin-bottom: 30px;">
+                <a href="mailto:ng542@cornell.edu" class="hero-button">Contact for Demo Video</a>
+                <a href="#about" style="margin-left: 20px; color: var(--accent); text-decoration: none; font-weight: 700; text-transform: uppercase; font-size: 14px;">Learn Our Story</a>
+            </div>
+            <div class="hero-image-container">
+                <img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=2000&auto=format&fit=crop" alt="Third-person view of a surgeon wearing Alpha Glasses in a high-tech operating room" class="hero-image">
+                <div class="alpha-glasses-hud">
+                    <div class="hud-scan-line"></div>
+                    <div class="hud-top">
+                        <div class="hud-item">BPM: 74</div>
+                        <div class="hud-item">REC: ON</div>
+                    </div>
+                    <div class="hud-target"></div>
+                    <div class="hud-bottom">
+                        <div class="hud-item">ALPHA GLASSES v2.4</div>
+                        <div class="hud-item">01:24:45</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Story</h2>
+                <p>Born in a post-op ER, built for the future of medicine</p>
+            </div>
+            <div style="max-width: 800px; margin: 0 auto 50px; text-align: left; font-family: 'Georgia', serif; font-size: 18px; line-height: 1.8;">
+                <p style="margin-bottom: 20px;">AlphaAgent started in an ER waiting room. After an emergency finger surgery following a spider bite, our founder—an Analytics Engineer at <strong>HCA Healthcare</strong>—watched as understaffed surgical teams spent more time wrestling with Epic and Cerner than attending to patients.</p>
+                <p style="margin-bottom: 20px;">Inspired by Lutz Finger's AI Solutions class, we realized that the "Manual Computer Workload" was the primary driver of physician burnout. We teamed up with a <strong>Raytheon Mechanical Engineer</strong> to build a military-grade ingestion layer for healthcare data.</p>
+                <p>Today, we use off-the-shelf smart glasses (Meta/Vuzix) as a wedge to capture the proprietary multimodal data needed to automate clinical documentation and, eventually, diagnostics.</p>
+            </div>
+            <div class="features-grid">
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4h-2v4H6V9h2v4h2V9h2v8z"/>
+                        </svg>
+                    </div>
+                    <h3>Clinical Workflow OS</h3>
+                    <p>Moving beyond simple scribing to a full operating system for surgical handoffs and point-of-care operations.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6zm17 8v-2h-2v2h2zm0-4v-2h-2v2h2zm0-4v-2h-2v2h2zm-4 8v-2h-2v2h2zm-4 0v-2h-2v2h2zm-4 0v-2h-2v2H6zm8-4v-2h-2v2h2zm-4 0v-2h-2v2h2zm-4 0v-2H6v2h2zm4-4v-2H8v2h2zm-4 0V6H6v2h2z"/>
+                        </svg>
+                    </div>
+                    <h3>Strategic Hardware Moat</h3>
+                    <p>By reverse engineering the Vuzix hardware, we gain full control over both hardware and software layers. This strategic approach ensures complete data sovereignty — no third-party dependencies, no opaque black boxes, and no vendor lock-in. We control the entire stack from sensor capture to AI processing to EHR integration.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <h3>Proprietary Data Moat</h3>
+                    <p>Capturing RGB and audio data at critical transition points to build the world's largest dataset for automated diagnostics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="technology">
+        <div class="container">
+            <div class="section-header">
+                <h2>Technology</h2>
+                <p>Advanced AI solutions for modern surgery</p>
+            </div>
+            <div class="features-grid">
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6zm17 8v-2h-2v2h2zm0-4v-2h-2v2h2zm0-4v-2h-2v2h2zm-4 8v-2h-2v2h2zm-4 0v-2h-2v2h2zm-4 0v-2h-2v2H6zm8-4v-2h-2v2h2zm-4 0v-2h-2v2h2zm-4 0v-2H6v2h2zm4-4v-2H8v2h2zm-4 0V6H6v2h2z"/>
+                        </svg>
+                    </div>
+                    <h3>AI Processing</h3>
+                    <p>Neural networks analyze surgical videos to generate accurate documentation automatically.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                        </svg>
+                    </div>
+                    <h3>Cloud Integration</h3>
+                    <p>Seamlessly integrate with hospital EHR systems and cloud storage solutions.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <h3>Secure Archive</h3>
+                    <p>Encrypted storage of all surgical records with instant retrieval capabilities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#about">About</a>
+                <a href="#technology">Technology</a>
+                <a href="mailto:ng542@cornell.edu">Contact</a>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 AlphaAgent Healthcare Solutions. All rights reserved.</p>
+                <!-- <p><a href="#">Privacy Policy</a></p> -->
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
